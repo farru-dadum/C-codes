@@ -91,6 +91,7 @@ void peek()
     {
      printf("\n The Value at the top is %d",stack[top]);
     } 
+}
 void display()
 {
     if(top>=0)
