@@ -1,0 +1,87 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class PerfectNumberChecker extends JFrame implements ActionListener {
+    // Declare components
+    JTextField inputField, resultField;
+    JButton checkButton;
+
+    // Constructor
+    public PerfectNumberChecker() {
+        // Set layout manager
+        setLayout(new FlowLayout());
+
+        // Create components
+        inputField = new JTextField(15);
+        resultField = new JTextField(15);
+        resultField.setEditable(false);
+        checkButton = new JButton("Check");
+
+        // Add action listener to the button
+        checkButton.addActionListener(this);
+
+        // Add components to the frame
+        add(new JLabel("Enter an integer:"));
+        add(inputField);
+        add(checkButton);
+        add(new JLabel("Result:"));
+        add(resultField);
+
+        // Set frame properties
+        setTitle("Perfect Number Checker");
+        setSize(300, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    // ActionListener implementation
+    public void actionPerformed(ActionEvent ae) {
+        try {
+            // Get the entered number from the text field
+            int number = Integer.parseInt(inputField.getText());
+
+            // Check if the number is a perfect number
+            if (isPerfectNumber(number)) {
+                resultField.setText(number + " is a perfect number.");
+            } else {
+                // If not a perfect number, display the sum of its digits
+                int digitSum = sumOfDigits(number);
+                resultField.setText("Sum of digits: " + digitSum);
+            }
+        } catch (NumberFormatException e) {
+            // Handle invalid input
+            resultField.setText("Invalid input. Please enter an integer.");
+        }
+    }
+
+    // Method to check if a number is a perfect number
+    private boolean isPerfectNumber(int number) {
+        int sum = 1; // Start with 1 as all numbers are divisible by 1
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                sum += i;
+                if (i != number / i) {
+                    sum += number / i;
+                }
+            }
+        }
+        return sum == number;
+    }
+
+    // Method to calculate the sum of digits in a number
+    private int sumOfDigits(int number) {
+        int sum = 0;
+        while (number != 0) {
+            sum += number % 10;
+            number /= 10;
+        }
+        return sum;
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        new PerfectNumberChecker();
+    }
+}
