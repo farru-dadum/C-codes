@@ -1,0 +1,83 @@
+// Import necessary libraries
+import java.awt.*;
+import java.awt.event.*;
+import java.util.InputMismatchException;
+
+// Create a Calculator class
+public class Calculator extends Frame implements ActionListener {
+    // Declare components
+    TextField textField;
+    Button circleBtn, rectangleBtn, triangleBtn;
+
+    // Constructor
+    public Calculator() {
+        // Set layout manager
+        setLayout(new FlowLayout());
+
+        // Create text field
+        textField = new TextField(20);
+        add(textField);
+
+        // Create buttons
+        circleBtn = new Button("Circle");
+        rectangleBtn = new Button("Rectangle");
+        triangleBtn = new Button("Triangle");
+
+        // Add action listeners to buttons
+        circleBtn.addActionListener(this);
+        rectangleBtn.addActionListener(this);
+        triangleBtn.addActionListener(this);
+
+        // Add buttons to frame
+        add(circleBtn);
+        add(rectangleBtn);
+        add(triangleBtn);
+
+        // Set frame properties
+        setTitle("Area Calculator");
+        setSize(300, 150);
+        setVisible(true);
+    }
+
+    // ActionListener implementation
+    public void actionPerformed(ActionEvent ae) {
+        try {
+            // Handle button clicks
+            if (ae.getSource() == circleBtn) {
+                // Get radius from user
+                double radius = Double.parseDouble(textField.getText());
+                // Calculate area of circle
+                double area = Math.PI * Math.pow(radius, 2);
+                // Display result
+                textField.setText("Area of Circle: " + area);
+            } else if (ae.getSource() == rectangleBtn) {
+                // Get length and width from user
+                double length = Double.parseDouble(textField.getText());
+                double width = Double.parseDouble(textField.getText());
+                // Calculate area of rectangle
+                double area = length * width;
+                // Display result
+                textField.setText("Area of Rectangle: " + area);
+            } else if (ae.getSource() == triangleBtn) {
+                // Get base and height from user
+                double base = Double.parseDouble(textField.getText());
+                double height = Double.parseDouble(textField.getText());
+                // Calculate area of triangle
+                double area = 0.5 * base * height;
+                // Display result
+                textField.setText("Area of Triangle: " + area);
+            }
+        } catch (NumberFormatException | InputMismatchException e) {
+            // Handle invalid input
+            textField.setText("Invalid input. Please enter valid numbers.");
+        } catch (ArithmeticException e) {
+            // Handle divide by zero
+            textField.setText("Error: Divide by zero.");
+        }
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        new Calculator();
+    }
+}
